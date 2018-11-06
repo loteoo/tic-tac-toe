@@ -2,9 +2,28 @@
 // Global actions 
 // ==================
 
-
-// Sets the new item input value in the state
-export const setInputValue = (state, ev) => ({
+export const PickSymbol = (state, symbol) => ({
   ...state,
-  inputValue: ev.target.value
+  symbol
 })
+
+export const Play = (state, {x, y}) => ({
+  ...state,
+  grid: state.grid.map(
+    (row, yPos) => 
+      yPos === y 
+        ? row.map(
+          (col, xPos) => 
+            xPos === x
+              ? state.symbol
+              : col
+          )
+        : row
+  )
+})
+
+export const BotPlay = (state) => ({
+  ...state,
+  grid: state.grid.map(row => row)
+})
+

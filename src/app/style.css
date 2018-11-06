@@ -266,17 +266,6 @@ select {
   max-width: 640px;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  > .col {
-    flex: 1;
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-}
-
 
 
 
@@ -306,4 +295,21 @@ header {
 
 main {
   padding: 3rem 0;
+}
+
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  .row {
+    display: flex;
+    flex-direction: row;
+    .col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+    }
+  }
 }
