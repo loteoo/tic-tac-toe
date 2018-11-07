@@ -1,11 +1,14 @@
 // Initial state of the app
 export const init = {
-  inputValue: 'Hyperapp 2.0',
+  
+  botThinking: false,
+
   wins: 0,
   losts: 0,
 
   // 'O' or 'X'
-  symbol: null,
+  playerSymbol: null,
+  botSymbol: null,
 
   grid: [
     [null, null, null],

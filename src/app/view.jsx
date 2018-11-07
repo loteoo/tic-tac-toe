@@ -25,7 +25,7 @@ export const view = state => (
           {state.grid.map((row, y) => (
             <div class="row">
               {row.map((col, x) => (
-                <div class="col" onclick={[Play, {x, y}]}>
+                <div class="col" onclick={!col ? [Play, {x, y, symbol: state.playerSymbol}] : null}>
                   {col}
                 </div>
               ))}
