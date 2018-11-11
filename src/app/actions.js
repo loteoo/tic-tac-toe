@@ -232,25 +232,128 @@ export const BotPlay = (state) => {
 
 
 
-  // Fork
+  // ====================
+  // Create a fork
+  // ====================
 
 
-  // Block player's fork
+
+  // ===========================
+  // Block the opponent's fork
+  // ===========================
 
 
-  // Center
+
+  // ==========================
+  // Play center if available
+  // ==========================
+  
+  let rowCenter = Math.floor(state.grid.length / 2)
+  let colCenter = Math.floor(state.grid[0].length / 2)
+  if (state.grid[rowCenter][colCenter] === null) {
+    nextState.grid[rowCenter][colCenter] = 'O'
+    return nextState
+  }
 
   
-  // Opposite corner
+  // =======================================
+  // Play an opposite corner if available
+  // =======================================
 
+  // Top left
+  if (
+    state.grid[0][0] === 'X'
+    && nextState.grid[state.grid.length - 1][state.grid[0].length - 1] === null
+  ) {
+    nextState.grid[state.grid.length - 1][state.grid[0].length - 1] = 'O'
+    return nextState
+  }
 
-  // Empty corner
+  // Top right
+  if (
+    state.grid[0][state.grid.length - 1] === 'X'
+    && nextState.grid[state.grid.length - 1][0] === null
+  ) {
+    nextState.grid[state.grid.length - 1][0] = 'O'
+    return nextState
+  }
+
+  // Bottom left
+  if (
+    state.grid[state.grid.length - 1][0] === 'X'
+    && nextState.grid[0][state.grid[0].length - 1] === null
+  ) {
+    nextState.grid[0][state.grid[0].length - 1] = 'O'
+    return nextState
+  }
+
+  // Bottom right
+  if (
+    state.grid[state.grid.length - 1][state.grid[0].length - 1] === 'X'
+    && nextState.grid[0][0] === null
+  ) {
+    nextState.grid[0][0] = 'O'
+    return nextState
+  }
 
   
-  // Empty side
+  // ====================
+  // Any empty corner
+  // ====================
+
+  // Top left
+  if (state.grid[0][0] === null) {
+    nextState.grid[0][0] = 'O'
+    return nextState
+  }
+
+  // Top right
+  if (state.grid[0][state.grid.length - 1] === null) {
+    nextState.grid[0][state.grid.length - 1] = 'O'
+    return nextState
+  }
+
+  // Bottom left
+  if (state.grid[state.grid.length - 1][0] === null) {
+    nextState.grid[state.grid.length - 1][0] = 'O'
+    return nextState
+  }
+
+  // Bottom right
+  if (state.grid[state.grid.length - 1][state.grid[0].length - 1] === null) {
+    nextState.grid[state.grid.length - 1][state.grid[0].length - 1] = 'O'
+    return nextState
+  }
 
 
+  
+  // ====================
+  // Any empty side
+  // ====================
 
+  // Top
+  if (state.grid[0][colCenter] === null) {
+    nextState.grid[0][colCenter] = 'O'
+    return nextState
+  }
+
+  // Bottom
+  if (state.grid[state.grid.length - 1][colCenter] === null) {
+    nextState.grid[state.grid.length - 1][colCenter] = 'O'
+    return nextState
+  }
+
+  // Left
+  if (state.grid[rowCenter][0] === null) {
+    nextState.grid[rowCenter][0] = 'O'
+    return nextState
+  }
+
+  // Right
+  if (state.grid[rowCenter][0] === null) {
+    nextState.grid[state.grid.length - 1][0] = 'O'
+    return nextState
+  }
 
   
 
