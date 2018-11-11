@@ -27,11 +27,34 @@ export const Play = (state, {x, y}) => {
 
 
 
-const countInArray = (value, array) =>
-  array.reduce((count, item) => (item === value ? count + 1 : count), 0)
+const countInRow = (value, row, grid) => 
+  grid[row].reduce((count, item) => (item === value ? count + 1 : count), 0)
+
+const fillRow = (value, row, grid) => {
+  let newGrid = grid
+  newGrid[row] = newGrid[row].map(col => col === null ? value : col)
+  return newGrid
+}
 
 
-const countInDiag = (value, grid, dir) => {
+
+const countInCol = (value, col, grid) => 
+  grid.reduce((count, row) => (row[col] === value ? count + 1 : count), 0)
+
+const fillCol = (value, col, grid) => {
+  let newGrid = grid
+  for (let y = 0; y < grid.length; y++) {
+    if (grid[y][col] === null) {
+      newGrid[y][col] = value
+    }
+  }
+  return newGrid
+}
+
+
+
+
+const countInDiag = (value, dir, grid) => {
   let count = 0
   for (let y = 0; y < grid.length; y++) {
 
@@ -44,15 +67,16 @@ const countInDiag = (value, grid, dir) => {
   return count
 }
 
-
-const fillDiag = (value, grid, dir) => {
+const fillDiag = (value, dir, grid) => {
   let newGrid = grid
   
   for (let y = 0; y < grid.length; y++) {
 
     let col = dir === 'toBottomRight' ? y : grid.length - y - 1
     
-    newGrid[y][col] = value
+    if (newGrid[y][col] === null) {
+      newGrid[y][col] = value
+    }
   }
 
   return newGrid
@@ -67,75 +91,88 @@ export const BotPlay = (state) => {
     botThinking: false
   }
 
+
+
+
   // ====================
-  // Play winning plays
+  // Play winning moves
   // ====================
 
   // Check for rows win
   for (let y = 0; y < state.grid.length; y++) {
-    let row = state.grid[y]
-    if (countInArray('O', row) >= state.grid.length - 1 && row.includes(null)) {
 
+    if (
+      countInRow('O', y, state.grid) >= state.grid.length - 1 
+      && countInRow(null, y, state.grid) > 0
+    ) {
       console.log('Row win')
-      nextState.grid[y].fill('O')
+      nextState.grid = fillRow('O', y, state.grid)
       return nextState
     }
+
   }
 
 
 
 
   // Check for cols win
-  for (let x = 0; x < 3; x++) {
+  for (let x = 0; x < state.grid[0].length; x++) {
 
-    let col = state.grid.reduce((col, row) => (col.concat(row[x])), [])
-
-    if (countInArray('O', col) >= state.grid.length - 1 && col.includes(null)) {
-
+    if (
+      countInCol('O', x, state.grid) >= state.grid.length - 1 
+      && countInCol(null, x, state.grid) > 0
+    ) {
       console.log('Col win')
-      nextState.grid.map(row => {
-        row[x] = 'O'
-        return row
-      })
-
+      nextState.grid = fillCol('O', x, state.grid)
       return nextState
     }
-
+    
   }
 
 
-  
+
 
   // Diag 1 win
-  if (countInDiag('O', state.grid, 'toBottomRight') >= state.grid.length - 1 && countInDiag(null, state.grid, 'toBottomRight') > 0) {
+  if (countInDiag('O', 'toBottomRight', state.grid) >= state.grid.length - 1 && countInDiag(null, 'toBottomRight', state.grid) > 0) {
 
     console.log('Diag 1 win')
 
     // Fill diagonal
-    nextState.grid = fillDiag('O', state.grid, 'toBottomRight')
+    nextState.grid = fillDiag('O', 'toBottomRight', state.grid)
 
     return nextState
 
   }
 
   // Diag 2 win
-  if (countInDiag('O', state.grid, 'toTopRight') >= state.grid.length - 1 && countInDiag(null, state.grid, 'toTopRight') > 0) {
+  if (countInDiag('O', 'toTopRight', state.grid) >= state.grid.length - 1 && countInDiag(null, 'toTopRight', state.grid) > 0) {
 
     console.log('Diag 2 win')
 
     // Fill diagonal
-    nextState.grid = fillDiag('O', state.grid, 'toTopRight')
+    nextState.grid = fillDiag('O', 'toTopRight', state.grid)
 
     return nextState
 
   }
 
 
+
+
+
+
   // ====================
   // Block opponent
   // ====================
-  
-  
+
+
+
+
+
+
+
+
+
 
   // Fork
 
