@@ -15,7 +15,7 @@ export const Play = (state, {x, y}) => {
 
   let nextGrid = state.grid
 
-  nextGrid[y][x] = 'O'
+  nextGrid[y][x] = 'X'
 
   return {
     ...state,
@@ -164,6 +164,64 @@ export const BotPlay = (state) => {
   // ====================
   // Block opponent
   // ====================
+
+  // Check for rows win
+  for (let y = 0; y < state.grid.length; y++) {
+
+    if (
+      countInRow('X', y, state.grid) >= state.grid.length - 1 
+      && countInRow(null, y, state.grid) > 0
+    ) {
+      console.log('Row block')
+      nextState.grid = fillRow('O', y, state.grid)
+      return nextState
+    }
+
+  }
+
+
+
+
+  // Check for cols win
+  for (let x = 0; x < state.grid[0].length; x++) {
+
+    if (
+      countInCol('X', x, state.grid) >= state.grid.length - 1 
+      && countInCol(null, x, state.grid) > 0
+    ) {
+      console.log('Col block')
+      nextState.grid = fillCol('O', x, state.grid)
+      return nextState
+    }
+    
+  }
+
+
+
+
+  // Diag 1 win
+  if (countInDiag('X', 'toBottomRight', state.grid) >= state.grid.length - 1 && countInDiag(null, 'toBottomRight', state.grid) > 0) {
+
+    console.log('Diag 1 block')
+
+    // Fill diagonal
+    nextState.grid = fillDiag('O', 'toBottomRight', state.grid)
+
+    return nextState
+
+  }
+
+  // Diag 2 win
+  if (countInDiag('X', 'toTopRight', state.grid) >= state.grid.length - 1 && countInDiag(null, 'toTopRight', state.grid) > 0) {
+
+    console.log('Diag 2 block')
+
+    // Fill diagonal
+    nextState.grid = fillDiag('O', 'toTopRight', state.grid)
+
+    return nextState
+
+  }
 
 
 
