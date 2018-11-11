@@ -5,7 +5,7 @@ import './style.css'
 import {h} from 'hyperapp'
 
 // Import actions
-import {Play, PickSymbol} from './actions'
+import {Play, BotPlay} from './actions'
 
 // Root view
 export const view = state => (
@@ -18,14 +18,14 @@ export const view = state => (
     <main>
       <div class="container">
 
-        <button onclick={[PickSymbol, 'X']}>X</button>
-        <button onclick={[PickSymbol, 'O']}>O</button>
+
+        <button onclick={BotPlay}>BotPlay</button>
 
         <div class="grid">
           {state.grid.map((row, y) => (
             <div class="row">
               {row.map((col, x) => (
-                <div class="col" onclick={!col ? [Play, {x, y, symbol: state.playerSymbol}] : null}>
+                <div class="col" onclick={!col ? [Play, {x, y}] : null}>
                   {col}
                 </div>
               ))}

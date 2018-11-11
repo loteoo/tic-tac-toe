@@ -6,10 +6,6 @@ export const init = {
   wins: 0,
   losts: 0,
 
-  // 'O' or 'X'
-  playerSymbol: null,
-  botSymbol: null,
-
   grid: [
     [null, null, null],
     [null, null, null],
