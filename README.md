@@ -1,2 +1,2 @@
 # tic-tac-toe
-Frustrating tic tac toe app built with hyperapp
+Frustrating (impossible to beat) tic tac toe app built with hyperapp
